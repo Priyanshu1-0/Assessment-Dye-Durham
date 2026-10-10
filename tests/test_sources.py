@@ -51,6 +51,23 @@ class FileNameSourceTests(unittest.TestCase):
 
         self.assertTrue(str(raised.exception).startswith(f'{self.file}:3: Invalid name "Cher"'))
 
+    def test_ignores_a_utf8_byte_order_mark_from_windows_editors(self) -> None:
+        self.file.write_bytes(b"\xef\xbb\xbfJanet Parsons\nMarin Alvarez\n")
+
+        names = FileNameSource(self.file).read_names()
+
+        self.assertEqual(as_strings(names), ["Janet Parsons", "Marin Alvarez"])
+        self.assertEqual(names[0].given_names, ("Janet",), "the mark must not be glued onto the first name")
+
+    def test_fails_clearly_when_the_file_is_not_utf8(self) -> None:
+        self.file.write_bytes("José García\n".encode("latin-1"))
+
+        with self.assertRaises(NameFileError) as raised:
+            FileNameSource(self.file).read_names()
+
+        self.assertIn(str(self.file), str(raised.exception))
+        self.assertIn("not valid utf-8-sig text", str(raised.exception))
+
     def test_fails_when_the_file_does_not_exist(self) -> None:
         with self.assertRaises(FileNotFoundError):
             FileNameSource(Path(self.tmp.name) / "missing.txt").read_names()

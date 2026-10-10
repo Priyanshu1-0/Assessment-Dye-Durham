@@ -95,6 +95,16 @@ class NameSorterCliTests(unittest.TestCase):
         self.assertRegex(result.stderr, r'unsorted-names-list\.txt:2: Invalid name "Madonna"')
         self.assertFalse(self.output_file.exists(), "nothing should be written when input is bad")
 
+    def test_reports_a_readable_error_instead_of_a_traceback_for_a_non_utf8_file(self) -> None:
+        self.input_file.write_bytes("José García\n".encode("latin-1"))
+
+        result = self.run_name_sorter("./unsorted-names-list.txt")
+
+        self.assertEqual(result.returncode, 1)
+        self.assertRegex(result.stderr, r"^Error: .*not valid utf-8-sig text")
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertFalse(self.output_file.exists())
+
     def test_can_also_be_run_as_a_module(self) -> None:
         self.input_file.write_text("Janet Parsons\nMarin Alvarez\n")
 
