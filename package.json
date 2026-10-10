@@ -1,0 +1,22 @@
+{
+  "name": "name-sorter",
+  "version": "1.0.0",
+  "description": "Sorts a list of names by last name, then by given names.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "name-sorter": "./bin/name-sorter.js"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node ./bin/name-sorter.js",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
