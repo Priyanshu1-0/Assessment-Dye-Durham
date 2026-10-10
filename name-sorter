@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+"""Thin executable wrapper so the program can be run as ``./name-sorter <file>``.
+
+All behaviour lives in ``name_sorter.cli``. The ``sys.path`` tweak lets this
+script be run from any working directory without installing the package.
+"""
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from name_sorter.cli import main  # noqa: E402  (import must follow the path tweak)
+
+sys.exit(main())
