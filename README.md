@@ -49,6 +49,9 @@ python3 -m unittest            # add -v for one line per test
 Unit tests cover each module. The suite also sorts a thousand names and
 runs the real `name-sorter` executable end-to-end.
 
+GitHub Actions (`.github/workflows/test.yml`) runs the same tests on
+Python 3.9 and 3.12 for every push to `main`.
+
 ## The rules, precisely
 
 - A name is one or more **given names** followed by a **last name**, separated
