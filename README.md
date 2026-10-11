@@ -46,8 +46,8 @@ A sample `unsorted-names-list.txt` is included in the repository.
 python3 -m unittest            # add -v for one line per test
 ```
 
-The suite covers each module in isolation, a generated thousand-name list,
-and an end-to-end run of the real `name-sorter` executable.
+Unit tests cover each module. The suite also sorts a thousand names and
+runs the real `name-sorter` executable end-to-end.
 
 ## The rules, precisely
 
