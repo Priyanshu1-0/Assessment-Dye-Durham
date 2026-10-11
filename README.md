@@ -49,8 +49,21 @@ python3 -m unittest            # add -v for one line per test
 Unit tests cover each module. The suite also sorts a thousand names and
 runs the real `name-sorter` executable end-to-end.
 
-GitHub Actions (`.github/workflows/test.yml`) runs the same tests on
-Python 3.9 and 3.12 for every push to `main`.
+## Build pipeline (optional bonus)
+
+The brief asked for a Travis / AppVeyor-style pipeline that runs build and
+test steps. This repo uses **GitHub Actions** for that
+(`.github/workflows/test.yml`).
+
+On every push to `main` it:
+
+1. Checks out the code on a clean machine
+2. Installs Python 3.9 and 3.12
+3. Runs `python -m unittest`
+4. Smoke-tests `./name-sorter ./unsorted-names-list.txt`
+
+There is no compile step (the project is pure Python). Results are on the
+[Actions tab](https://github.com/Priyanshu1-0/Assessment-Dye-Durham/actions).
 
 ## The rules, precisely
 
