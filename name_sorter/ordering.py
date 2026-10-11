@@ -15,11 +15,20 @@ from name_sorter.name import Name
 
 
 class Comparable(Protocol):
-    """Anything that supports ``<``; tuples, strings and numbers all qualify."""
+    """A type-checker hint: "this value can be compared with <".
+
+    This class is never created or used when the program runs. It only tells
+    tools like mypy that a sort key must return something Python can put in
+    order - a string, a number, or a tuple of those. ``__lt__`` is the method
+    behind the ``<`` operator. The ``...`` means we are not writing a real
+    body; the hint is enough.
+    """
 
     def __lt__(self, other: Any, /) -> bool: ...
 
 
+# A function that takes a Name and returns something Comparable.
+# NameSorter is given one of these; by_last_name_then_given_names is ours.
 NameSortKey = Callable[[Name], Comparable]
 
 

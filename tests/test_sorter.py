@@ -1,10 +1,9 @@
 import unittest
 from collections import Counter
 
-from name_sorter.name import Name
 from name_sorter.ordering import by_last_name_then_given_names
 from name_sorter.sorter import NameSorter
-from tests.helpers import EXAMPLE_SORTED, EXAMPLE_UNSORTED, as_strings, generate_names, parse_all
+from tests.helpers import EXAMPLE_SORTED, EXAMPLE_UNSORTED, as_strings, parse_all
 
 
 class NameSorterTests(unittest.TestCase):
@@ -51,7 +50,10 @@ class NameSorterAtScaleTests(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        self.unsorted = parse_all(generate_names(1000, seed=42))
+        lines = [f"Given{i} Last{i % 20}" for i in range(1000)]
+        lines[0] = "Ada smith"
+        lines[1] = "Zoe Smith"
+        self.unsorted = parse_all(lines)
         self.sorted = NameSorter(by_last_name_then_given_names).sort(self.unsorted)
 
     def test_output_is_a_permutation_of_the_input(self) -> None:
@@ -74,8 +76,7 @@ class NameSorterAtScaleTests(unittest.TestCase):
                 )
 
     def test_tricky_last_names_are_grouped_regardless_of_case(self) -> None:
-        # "Smith" and "smith" both appear in the generated data and must end
-        # up as one contiguous block rather than two separate ones.
+        # "Smith" and "smith" must end up as one contiguous block.
         positions = [i for i, name in enumerate(self.sorted) if name.last_name.casefold() == "smith"]
 
         self.assertTrue(positions, "expected some Smiths in the generated data")

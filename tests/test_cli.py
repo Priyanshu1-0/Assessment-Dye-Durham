@@ -12,7 +12,7 @@ import unittest
 from pathlib import Path
 
 from name_sorter.cli import OUTPUT_FILE_NAME, USAGE
-from tests.helpers import EXAMPLE_SORTED, EXAMPLE_UNSORTED, generate_names
+from tests.helpers import EXAMPLE_SORTED, EXAMPLE_UNSORTED
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 EXECUTABLE = REPO_ROOT / "name-sorter"
@@ -47,7 +47,7 @@ class NameSorterCliTests(unittest.TestCase):
         self.assertEqual(self.output_file.read_text(), "\n".join(EXAMPLE_SORTED) + "\n")
 
     def test_handles_a_thousand_names(self) -> None:
-        lines = generate_names(1000, seed=7)
+        lines = [f"Given{i} Last{i % 20}" for i in range(1000)]
         self.input_file.write_text("\n".join(lines) + "\n")
 
         result = self.run_name_sorter("./unsorted-names-list.txt")

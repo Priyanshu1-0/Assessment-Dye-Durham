@@ -6,7 +6,7 @@ Given a file with one name per line:
 
 ```
 Janet Parsons
-Vaughn Lewis
+Vaugh Lewis
 Adonis Julius Archer
 ```
 
@@ -16,7 +16,7 @@ screen and writes the same list to `./sorted-names-list.txt`
 
 ```
 Adonis Julius Archer
-Vaughn Lewis
+Vaugh Lewis
 Janet Parsons
 ```
 
